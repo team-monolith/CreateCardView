@@ -1,9 +1,6 @@
 package com.monolith.createcardview
 
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.Canvas
-import android.graphics.Paint
+import android.graphics.*
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -35,8 +32,6 @@ class FirstFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        var test=53
-        test+=5
         CreateCard()
     }
 
@@ -46,8 +41,11 @@ class FirstFragment : Fragment() {
 
         val img_frame=BitmapFactory.decodeResource(resources,R.drawable.frame1)
         val img_icon=Bitmap.createScaledBitmap(BitmapFactory.decodeResource(resources,R.drawable.icon),(img_frame.height/3),(img_frame.height/3),true)
+        val img_badge_back=Bitmap.createScaledBitmap(BitmapFactory.decodeResource(resources,R.drawable.badge_background_4),(img_frame.height/6),(img_frame.height/6),true)
+        val img_badge_icon=Bitmap.createScaledBitmap(BitmapFactory.decodeResource(resources,R.drawable.badge_icon_7),(img_frame.height/6),(img_frame.height/6),true)
         val str_id:String=12345.toString()
-        val str_name:String="あいうえおかきくけこ"
+        val str_name:String="やまだたろう"
+        val str_distance:String="1,234,250m"
 
         val width=img_frame.width
         val height=img_frame.height
@@ -64,12 +62,29 @@ class FirstFragment : Fragment() {
 
         canvas.drawBitmap(img_icon,((width-frameWidth)/8f)-(img_icon.width/2f)+frameWidth/2,((height-frameWidth)/4f)-(img_icon.height/2f)+frameWidth/2,paint)
 
-        //※ビューを作るだけで、一度作ったものをリサイズして利用するので、位置は無理やりハードコートしています
-        paint.textSize=120f
-        canvas.drawText("   I D   ：$str_id",(width-frameWidth)/4f+frameWidth/2f+20,(height-frameWidth)/4+frameWidth-250,paint)
-        canvas.drawText("NAME：$str_name",(width-frameWidth)/4f+frameWidth/2f,(height-frameWidth)/4+frameWidth+50,paint)
+        canvas.drawBitmap(img_badge_back,2650f,550f,paint)
 
+        canvas.drawBitmap(img_badge_icon,2650f,550f,paint)
 
+        //※ビューは一度作ったものをリサイズして利用するので、位置は無理やりハードコートしています
+        paint.textSize=150f
+
+        /*
+        canvas.drawText("ID：$str_id",(width/2)-paint.measureText("ID：$str_id")/2,(height-frameWidth)/4+frameWidth-250,paint)
+        canvas.drawText(str_name,(width/2)-paint.measureText(str_name)/2,((height-frameWidth)/4f)+(paint.fontMetrics.top/-2) +frameWidth/2,paint)
+        canvas.drawText(str_distance,(width/2)-paint.measureText(str_distance)/2,((height-frameWidth)/4f)+(paint.fontMetrics.top/-2) +frameWidth/2+200,paint)
+        */
+
+        canvas.drawText("ID：$str_id",(width-frameWidth)/4+frameWidth/2+125,(height-frameWidth)/4+frameWidth-250,paint)
+        canvas.drawText(str_name,(width-frameWidth)/4+frameWidth/2+125,((height-frameWidth)/4f)+(paint.fontMetrics.top/-2) +frameWidth/2,paint)
+        canvas.drawText(str_distance,(width-frameWidth)/4*3+frameWidth/2-paint.measureText(str_distance),((height-frameWidth)/4f)+(paint.fontMetrics.top/-2) +frameWidth/2+200,paint)
+
+        paint.color= Color.parseColor("#808080")
+        paint.strokeWidth=5f
+        //canvas.drawLine(1000f,280f,2400f,280f,paint)
+        canvas.drawLine(1000f,480f,2450f,480f,paint)
+        canvas.drawLine(1000f,680f,2450f,680f,paint)
+        canvas.drawLine(1000f,880f,2450f,880f,paint)
         //ここにブレークポイントを置き、outputの中身をデバッグで見ること。
         //動作させても落ちます（処理未記述のため）
         outputCard(output)
@@ -81,7 +96,6 @@ class FirstFragment : Fragment() {
         val file = File(GLOBAL.DIRECTORY, "icon.png")
         FileOutputStream(file).use { fileOutputStream ->
             output.compress(Bitmap.CompressFormat.PNG,100,fileOutputStream)
-            fileOutputStream.flush()
             fileOutputStream.flush()
         }
     }
