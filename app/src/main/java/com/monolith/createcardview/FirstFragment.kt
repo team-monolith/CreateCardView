@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.navigation.fragment.findNavController
 import java.io.File
@@ -32,10 +33,14 @@ class FirstFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        CreateCard()
+
+        val bitmap_card:Bitmap=CreateCard()
+
+
+        view.findViewById<ImageView>(R.id.iv_card).setImageBitmap(bitmap_card)
     }
 
-    fun CreateCard(){
+    fun CreateCard():Bitmap{
 
         //フレームは50pxずつのズレ,サイズを12.54で割るとちょうどフレームサイズの模様
 
@@ -85,9 +90,8 @@ class FirstFragment : Fragment() {
         canvas.drawLine(1000f,480f,2450f,480f,paint)
         canvas.drawLine(1000f,680f,2450f,680f,paint)
         canvas.drawLine(1000f,880f,2450f,880f,paint)
-        //ここにブレークポイントを置き、outputの中身をデバッグで見ること。
-        //動作させても落ちます（処理未記述のため）
-        outputCard(output)
+
+        return output
 
     }
 
