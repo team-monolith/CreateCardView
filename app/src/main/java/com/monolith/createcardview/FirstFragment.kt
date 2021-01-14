@@ -94,13 +94,4 @@ class FirstFragment : Fragment() {
         return output
 
     }
-
-    fun outputCard(output:Bitmap){
-        //画像を250x250にリサイズし出力
-        val file = File(GLOBAL.DIRECTORY, "icon.png")
-        FileOutputStream(file).use { fileOutputStream ->
-            output.compress(Bitmap.CompressFormat.PNG,100,fileOutputStream)
-            fileOutputStream.flush()
-        }
-    }
 }
